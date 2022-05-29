@@ -1,4 +1,5 @@
-var _throttle = require('lodash.throttle');
+    import throttle from 'lodash.throttle';
+
     const iframe = document.querySelector('iframe');
     const player = new Vimeo.Player(iframe);
     
@@ -12,7 +13,7 @@ var _throttle = require('lodash.throttle');
     
 
 
-    
+    //Відстежування і запис поточного часу відео до локального сховища
     const onPlay = function(data) {
         localStorage.setItem("videoplayer_current_time",JSON.stringify( data.seconds));
        console.log(data.seconds); 
@@ -21,21 +22,19 @@ var _throttle = require('lodash.throttle');
      let stopTime = localStorage.getItem("videoplayer_current_time");
      
 
-    player.on('timeupdate', _throttle(onPlay, 1000));
+    player.on('timeupdate', throttle(onPlay, 1000));
 
-    
+    //Запуск відео з моменту зупинки 
 
     player.setCurrentTime(stopTime).then(function(seconds) {
         
-        // seconds = the actual time that the player seeked to
     }).catch(function(error) {
         switch (error.name) {
-            case 'RangeError':
-                // the time was less than 0 or greater than the video’s duration
+            case 'RangeError':   
                 break;
-    
+
             default:
-                // some other error occurred
+            
                 break;
         }
     });

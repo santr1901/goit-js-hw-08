@@ -4,34 +4,26 @@ const form = document.querySelector(".feedback-form");
 const formInput = document.querySelector("input");
 const formTextarea = document.querySelector("textarea");
 const FORM_DATA_KEY = "feedback-form-state";
+const formData = {};
 
 form.addEventListener("submit", submitBtn);
 form.addEventListener("input", throttle(inputData, 500));
 
 updateForm()
   function updateForm() {
-    try {
-      const data = localStorage.getItem(FORM_DATA_KEY);
-      const formData = data ? JSON.parse(data) : string("");
-      formInput.value = formData.email;
-      formTextarea.value = formData.message;
-    } catch (error) {
-      console.log("Parcing error")
-    }
-    
+      const data = JSON.parse(localStorage.getItem(FORM_DATA_KEY));
+      
+      if(data) {
+        formInput.value = data.email;
+      formTextarea.value = data.message;
+      }
+      
   }
 
 function inputData (event) {
     event.preventDefault();
 
-    const {
-            elements: { email, message }
-          } = event.currentTarget;
-
-    const formData ={
-        email: email.value,
-        message: message.value
-    }
+    formData[event.target.name] = event.target.value;
    
   localStorage.setItem(FORM_DATA_KEY,JSON.stringify(formData));
   

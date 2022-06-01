@@ -13,10 +13,10 @@ updateForm()
   function updateForm() {
       const data = JSON.parse(localStorage.getItem(FORM_DATA_KEY));
       
-      if(data) {
-        formInput.value = data.email;
-      formTextarea.value = data.message;
-      }
+      
+        formInput.value = data.email ? data.email : null;
+        formTextarea.value = data.message ? data.message : null;
+      
       
   }
 
